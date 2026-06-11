@@ -1,20 +1,33 @@
+"""
+storage.py
+
+Handles storage.
+"""
+
 import os
 import csv
 from datetime import datetime
 
+### CSV FIELDS ###
+INPUT_FIELDS = [
 
-
-FIELDS = [
-    "name",
-    "business",
-    "email",
+    "school_name",
+    "contact_person",
     "phone",
-    "industry",
-    "interest",
-    "budget",
-    "score",
-    "status"
+    "email",
+    "fees",
+    "student_count",
+    "existing_technology",
+    "current_system",
+    "decision_maker",
+    "interest_level",
 ]
+
+FIELDS = INPUT_FIELDS + [
+    "score",
+    "status",
+]
+
 
 HISTORY_FIELDS = [
     "timestamp",
@@ -22,16 +35,25 @@ HISTORY_FIELDS = [
     "status"
 ]
 
+
+### FILE CONFIGURATION ###
 LEADS_FILE = "leads.csv"
+
 HISTORY_FILE = "history.csv"
 
+TIMESTAMP_FORMAT = "%Y-%m-%d %H:%M:%S"
 
 
-def get_lead():
-    """Dynamically get leads from user"""
+
+
+def get_lead() -> dict[str, str]:
+    """
+    Prompt the user for lead information and return it as a dictionary.
+    """
+
     lead = {}
 
-    for field_name in FIELDS:
+    for field_name in INPUT_FIELDS:
         prompt = field_name.replace("_", " ")
         lead[field_name] = input(f"Enter lead {prompt}: ").strip()
 
@@ -39,8 +61,11 @@ def get_lead():
 
 
 
-def save_lead(lead):
-    """Saves leads to leads.csv"""
+def save_lead(lead: dict[str, str]) -> None:
+    """
+    Save a lead record to the leads CSV file.
+    """
+
     file_exists = os.path.isfile(LEADS_FILE)
 
     with open(LEADS_FILE, mode="a", newline="", encoding="utf-8") as file:
@@ -53,9 +78,10 @@ def save_lead(lead):
 
 
 
-def load_leads():
-    """Load all leads from leads.csv."""
-    leads = []
+def load_leads() -> list[dict[str, str]]:
+    """
+    Load all lead records from the CSV file.
+    """
 
     try:
         with open(LEADS_FILE, mode="r", newline="", encoding="utf-8") as file:
@@ -67,10 +93,13 @@ def load_leads():
 
 
 
-def save_history(action, status):
-    """Saves activity record to history.csv"""
+def save_history(action: str, status: str) -> None:
+    """
+    Save an activity record to the history CSV file.
+    """
+    
     history_record = {
-        "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+        "timestamp": datetime.now().strftime(TIMESTAMP_FORMAT),
         "action": action,
         "status": status
     }
