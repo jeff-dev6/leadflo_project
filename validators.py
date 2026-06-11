@@ -1,25 +1,37 @@
+"""
+Validator.py
+
+Provides functions for validating and cleaning user input.
+"""
+
 import re
 
-def validate_email(email):
+
+def validate_email(email: str) -> bool: 
+    """
+    Checks whether an email address is valid.
+    """
 
     pattern = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
 
-    if re.match(pattern, email):
-        return True
-    else: 
-        return False
+    return bool(re.match(pattern, email))
+
     
-    
-def phone_number(number):
+
+def validate_phone_number(number: str) -> bool:
+    """
+    Checks whether a phone number is valid.
+    """
     pattern = r'^\+?[0-9]{7,15}$'
 
-    if re.match(pattern, number):
-        return True
-    else:
-        return False
+    return bool(re.match(pattern, number))
+
     
 
-def clean_text(text):
-    return "".join(text.strip().title().split())
+def clean_text(text: str) -> str:
+    """
+    Clean and format text input.
+    """
+    return " ".join(text.strip().title().split())
         
 
