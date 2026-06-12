@@ -125,7 +125,7 @@ def classify_lead(total_score: int) -> str:
 ### LEAD EVALUATION ###
 def evaluate_lead(lead: dict) -> tuple[int, str]:
     """
-    Evaluate a lead and return its score and category.
+    Evaluate a lead and return its score and status.
     """
     score = calculate_score(lead)
     status = classify_lead(score)
