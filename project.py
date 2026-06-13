@@ -5,8 +5,9 @@ User interaction and menu
 """
 
 from lead_score import  evaluate_lead
-from storage import get_lead, save_lead, save_history, load_leads
+from storage import get_lead, save_lead, save_history, search_leads
 from validators import clean_lead
+from report import generate_report
 
 
 
@@ -28,10 +29,10 @@ def main():
              add_lead()
 
         elif choice == "2":
-            search_leads()
+            search_for_leads()
 
         elif choice == "3":
-            generate_report()
+            display_reports()
 
         elif choice == "4":
             export_hot_leads()
@@ -81,16 +82,31 @@ def add_lead():
 
 
 
-def search_leads(search_term):
-    leads = load_leads()
+def search_for_leads():
+    search_term = input("Enter school name to search: ")
 
-    matches = []
+    matches = search_leads(search_term)
 
-    for lead in leads:
-        if search_term.lower() in lead["school_name"].lower():
-            matches.append(lead)
+    if not matches:
+        print("No matching schools found.")
+        return
 
-    return matches
+    for lead in matches:
+        print(lead)
+
+
+
+def display_reports():
+    report = generate_report()
+
+    print(f"Total Leads: {report['total_leads']}")
+    print(f"Hot Leads: {report['hot_leads']}")
+    print(f"Warm Leads: {report['warm_leads']}")
+    print(f"Nurture Leads: {report['nurture_leads']}")
+    print(f"Cold Leads: {report['cold_leads']}") 
+
+
+
 
 
 

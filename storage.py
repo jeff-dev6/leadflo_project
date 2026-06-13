@@ -7,6 +7,7 @@ Handles storage.
 import os
 import csv
 from datetime import datetime
+from validators import clean_text
 
 ### CSV FIELDS ###
 INPUT_FIELDS = [
@@ -37,9 +38,9 @@ HISTORY_FIELDS = [
 
 
 ### FILE CONFIGURATION ###
-LEADS_FILE = "leads.csv"
+LEADS_FILE = "data/leads.csv"
 
-HISTORY_FILE = "history.csv"
+HISTORY_FILE = "data/history.csv"
 
 TIMESTAMP_FORMAT = "%Y-%m-%d %H:%M:%S"
 
@@ -90,6 +91,20 @@ def load_leads() -> list[dict[str, str]]:
 
     except FileNotFoundError:
         return []
+    
+
+def search_leads(search_term):
+    leads = load_leads()
+
+    search_word = search_term.strip().lower()  
+
+    matches = []
+
+    for lead in leads:
+        if search_word in lead["school_name"].strip().lower():  
+            matches.append(lead)
+
+    return matches
 
 
 
