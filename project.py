@@ -4,9 +4,9 @@ project.py
 User interaction and menu
 """
 
-from lead_score import calculate_score, evaluate_lead
-from storage import get_lead, save_lead, save_history
-from validators import clean_text
+from lead_score import  evaluate_lead
+from storage import get_lead, save_lead, save_history, load_leads
+from validators import clean_lead
 
 
 
@@ -49,38 +49,48 @@ def main():
 
 
 
-
-
-
-
 def add_lead():
     try:
         lead = get_lead()
-        cleaned_lead = clean_text(lead)
+        
+        cleaned_lead = clean_lead(lead)
+        
+        score, status = evaluate_lead(cleaned_lead)
 
-        score_lead = calculate_score(cleaned_lead)
-        lead_status = evaluate_lead(score_lead)
-
-        cleaned_lead["score_lead"] = score_lead
-        cleaned_lead["lead_status"] = lead_status
+        cleaned_lead["score"] = score
+        cleaned_lead["status"] = status
 
         save_lead(cleaned_lead)
 
         save_history(
             "Lead added", 
-            f"Successfully added lead with status '{lead_status}' and score {score_lead}"
+            f"Successfully added lead with status '{status}' and score {score}"
         )
 
         print(
             f"Lead added successfully! "
-            f"Status: {lead_status}, | Score: {score_lead}"
+            f"Status: {status}, | Score: {score}"
         )
 
         return cleaned_lead
     
     except Exception as e:
         print(f"Error adding lead: {e}")
-        return None
+
+    return None
+
+
+
+def search_leads(search_term):
+    leads = load_leads()
+
+    matches = []
+
+    for lead in leads:
+        if search_term.lower() in lead["school_name"].lower():
+            matches.append(lead)
+
+    return matches
 
 
 

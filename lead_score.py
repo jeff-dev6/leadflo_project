@@ -97,10 +97,12 @@ def calculate_score(lead: dict) -> int:
     total_score += INTEREST_LEVEL_SCORES.get(
         lead.get("interest_level", "").lower(), 0)
     
-    total_score += school_fees_score(lead.get("fees", 0))
+    fees = int(lead.get("fees", 0) or 0)
+    student_count = int(lead.get("student_count", 0) or 0)
 
-    total_score += student_count_score(lead.get("student_count", 0))
-
+    total_score += school_fees_score(fees)
+    total_score += student_count_score(student_count)
+    
     return total_score
 
 

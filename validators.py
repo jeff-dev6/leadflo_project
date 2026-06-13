@@ -33,5 +33,23 @@ def clean_text(text: str) -> str:
     Clean and format text input.
     """
     return " ".join(text.strip().title().split())
+
+
+
+def clean_lead(lead: dict) -> dict:
+    cleaned_lead = {}
+
+    for key, value in lead.items():
+        if key in ["fees", "student_count"]:
+            try:
+                cleaned_lead[key] = int(str(value).replace(",", "").strip())
+            except:
+                cleaned_lead[key] = 0
+        elif isinstance(value, str):
+            cleaned_lead[key] = clean_text(value)
+        else:
+            cleaned_lead[key] = value
+
+    return cleaned_lead
         
 
