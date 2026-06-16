@@ -7,7 +7,7 @@ User interaction and menu
 from lead_score import  evaluate_lead
 from storage import get_lead, save_lead, save_history, search_leads
 from validators import clean_lead
-from report import generate_report
+from report import total_leads, total_hot_leads, total_warm_leads, total_nurture_leads, total_low_priority_leads
 
 
 
@@ -94,19 +94,20 @@ def search_for_leads():
     for lead in matches:
         print(lead)
 
-
+ 
 
 def display_reports():
-    report = generate_report()
+    print("\n" + "=" * 40)
+    print("LEAD REPORT")
+    print("=" * 40)
+    print(f"\nTotal Leads: {total_leads()}")
+    print(f"Hot Leads: {total_hot_leads()}")
+    print(f"Warm Leads: {total_warm_leads()}")
+    print(f"Nurture Leads: {total_nurture_leads()}")
+    print(f"Low Priority Leads: {total_low_priority_leads()}")
+    print("\n" + " " * 40)
 
-    print(f"Total Leads: {report['total_leads']}")
-    print(f"Hot Leads: {report['hot_leads']}")
-    print(f"Warm Leads: {report['warm_leads']}")
-    print(f"Nurture Leads: {report['nurture_leads']}")
-    print(f"Cold Leads: {report['cold_leads']}") 
-
-
-
+    
 
 
 
