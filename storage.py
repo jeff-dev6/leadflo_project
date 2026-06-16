@@ -128,3 +128,7 @@ def save_history(action: str, status: str) -> None:
             writer.writeheader()
 
         writer.writerow(history_record)
+
+
+
+

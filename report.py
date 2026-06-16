@@ -9,6 +9,7 @@ from storage import load_leads
 
 
 
+
 def total_leads() -> int:
     leads = load_leads()
     total_leads = len(leads)
@@ -37,6 +38,12 @@ def total_low_priority_leads():
     raw_leads = load_leads()
     low_priority = [lead for lead in raw_leads if 10 <= int(lead.get("score", 0)) < 50]
     return len(low_priority)
+
+
+def get_hot_leads():
+    leads = load_leads()
+
+    return [lead for lead in leads if int(lead.get("score", 0)) >= 100]
 
 
 

@@ -3,11 +3,13 @@ project.py
 
 User interaction and menu
 """
-
+import csv
 from lead_score import  evaluate_lead
-from storage import get_lead, save_lead, save_history, search_leads
+from storage import get_lead, save_lead, save_history, search_leads, FIELDS
 from validators import clean_lead
-from report import total_leads, total_hot_leads, total_warm_leads, total_nurture_leads, total_low_priority_leads
+from report import(total_leads, total_hot_leads, total_warm_leads, 
+                   total_nurture_leads, total_low_priority_leads,
+                   get_hot_leads)
 
 
 
@@ -106,6 +108,18 @@ def display_reports():
     print(f"Nurture Leads: {total_nurture_leads()}")
     print(f"Low Priority Leads: {total_low_priority_leads()}")
     print("\n" + " " * 40)
+
+
+
+def export_hot_leads():
+    hot_leads = get_hot_leads()
+    with open("data/output.csv", mode="w", newline="", encoding="utf-8") as file:
+        writer = csv.DictWriter(file, fieldnames=FIELDS)
+
+        writer.writeheader()
+        writer.writerows(hot_leads)
+
+    print(f"Exported {len(hot_leads)} hot leads.")
 
     
 

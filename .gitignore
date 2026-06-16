@@ -2,3 +2,4 @@ __pycache__/
 *.pyc
 data/leads.csv
 data/history.csv
+data/output.csv
